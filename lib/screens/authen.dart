@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mushroom_iot_ung/screens/register.dart';
 
 class Authen extends StatefulWidget {
   @override
@@ -35,7 +36,7 @@ class _AuthenState extends State<Authen> {
     );
   }
 
-  Widget signUpButton() {
+  Widget signUpButton(BuildContext context) {
     return Expanded(
       child: OutlineButton(
         borderSide: BorderSide(color: Colors.blue[700]),
@@ -45,7 +46,14 @@ class _AuthenState extends State<Authen> {
           'Sign Up',
           style: TextStyle(color: Colors.blue[700]),
         ),
-        onPressed: () {},
+        onPressed: () {
+          print('You Click SignUp');
+
+          // Create Route
+          var registerRoute =
+              MaterialPageRoute(builder: (BuildContext context) => Register());
+              Navigator.of(context).push(registerRoute);
+        },
       ),
     );
   }
@@ -134,7 +142,7 @@ class _AuthenState extends State<Authen> {
                   children: <Widget>[
                     signInButton(),
                     mySizeBox(),
-                    signUpButton(),
+                    signUpButton(context),
                   ],
                 ),
               ),
