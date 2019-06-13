@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:mushroom_iot_ung/screens/my_service.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class _RegisterState extends State<Register> {
   String nameString, emailString, passwordString;
 
   // Method
-  Widget uploadButton() {
+  Widget uploadButton(BuildContext context) {
     return IconButton(
       icon: Icon(Icons.cloud_upload),
       iconSize: 36.0,
@@ -21,13 +22,13 @@ class _RegisterState extends State<Register> {
         print('You Click Upload');
         if (formKey.currentState.validate()) {
           formKey.currentState.save();
-          uploadToFirebase();
+          uploadToFirebase(context);
         }
       },
     );
   }
 
-  void uploadToFirebase() async {
+  void uploadToFirebase(BuildContext context) async {
     print('Name = $nameString, email = $emailString, pass = $passwordString');
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     await firebaseAuth
@@ -36,18 +37,36 @@ class _RegisterState extends State<Register> {
         .then((objValue) {
       String uidString = objValue.uid.toString();
       print('uid ==> $uidString');
-      uploadValueToDatabase(uidString);
+      uploadValueToDatabase(uidString, context);
     }).catchError((objValue) {
       String error = objValue.message;
       print('error ==> $error');
     });
   }
 
-  void uploadValueToDatabase(String uid) async {
+  void uploadValueToDatabase(String uid, BuildContext context) async {
+    Map<String, String> map = Map();
+    map['Name'] = nameString;
+    map['Uid'] = uid;
 
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
-    
+    await firebaseDatabase
+        .reference()
+        .child('User')
+        .child(uid)
+        .set(map)
+        .then((objValue) {
+      print('UpdateDatabase Success');
 
+      // Create Route to MyService
+      var myServiceRoute =
+          MaterialPageRoute(builder: (BuildContext context) => MyService());
+      Navigator.of(context)
+          .pushAndRemoveUntil(myServiceRoute, (Route<dynamic> route) => false);
+    }).catchError((objValue) {
+      String error = objValue.message;
+      print('error ==> $error');
+    });
   }
 
   Widget nameText() {
@@ -132,7 +151,7 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(
         backgroundColor: Colors.blue[700],
         title: Text('Register'),
-        actions: <Widget>[uploadButton()],
+        actions: <Widget>[uploadButton(context)],
       ),
       body: Form(
         key: formKey,
