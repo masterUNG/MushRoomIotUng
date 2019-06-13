@@ -84,6 +84,108 @@ class _MyServiceState extends State<MyService> {
     });
   }
 
+  Widget tempHeight() {
+    return Expanded(
+      child: TextFormField(
+        decoration: InputDecoration(
+          labelText: 'Temp Height :',
+          helperText: 'องศา C',
+        ),
+      ),
+    );
+  }
+
+  Widget tempLow() {
+    return Expanded(
+      child: TextFormField(
+        decoration: InputDecoration(
+          labelText: 'Temp Low :',
+          helperText: 'องศา C',
+        ),
+      ),
+    );
+  }
+
+  Widget humudityHeight() {
+    return Expanded(
+      child: TextFormField(
+        decoration: InputDecoration(
+          labelText: 'Humudity Height :',
+          helperText: 'เปอร์เซ็นความชื้น',
+        ),
+      ),
+    );
+  }
+
+  Widget humudityLow() {
+    return Expanded(
+      child: TextFormField(
+        decoration: InputDecoration(
+          labelText: 'Humudity Low :',
+          helperText: 'เปอร์เซ็นความชื้น',
+        ),
+      ),
+    );
+  }
+
+  Widget suitAbleHumudity() {
+    return Expanded(
+      child: TextFormField(
+        decoration: InputDecoration(
+          labelText: 'SuitAbleHumudity :',
+          helperText: 'เปอร์เซ็นความชื้น',
+        ),
+      ),
+    );
+  }
+
+  Widget suitAbleTemp() {
+    return Expanded(
+      child: TextFormField(
+        decoration: InputDecoration(
+          labelText: 'SuitAbleHumudity :',
+          helperText: 'องศา C',
+        ),
+      ),
+    );
+  }
+
+  Widget row1() {
+    return Container(
+      alignment: Alignment.topCenter,
+      child: Container(
+        width: 300.0,
+        child: Row(
+          children: <Widget>[tempLow(), tempHeight()],
+        ),
+      ),
+    );
+  }
+
+  Widget row2() {
+    return Container(
+      alignment: Alignment.topCenter,
+      child: Container(
+        width: 300.0,
+        child: Row(
+          children: <Widget>[humudityLow(), humudityHeight()],
+        ),
+      ),
+    );
+  }
+
+  Widget row3() {
+    return Container(
+      alignment: Alignment.topCenter,
+      child: Container(
+        width: 300.0,
+        child: Row(
+          children: <Widget>[suitAbleHumudity(), suitAbleTemp()],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +193,13 @@ class _MyServiceState extends State<MyService> {
         title: showTitle(),
         actions: <Widget>[signOutButton()],
       ),
-      body: Text('body'),
+      body: Container(
+        alignment: Alignment.topCenter,
+        padding: EdgeInsets.only(top: 80.0),
+        child: Column(
+          children: <Widget>[row1(), row2(), row3()],
+        ),
+      ),
     );
   }
 }
