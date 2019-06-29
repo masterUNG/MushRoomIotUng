@@ -86,9 +86,8 @@ class _AuthenState extends State<Authen> {
         .signInWithEmailAndPassword(
             email: emailString, password: passwordString)
         .then((objValue) {
-          moveToMyService(context);
-        })
-        .catchError((objValue) {
+      moveToMyService(context);
+    }).catchError((objValue) {
       String error = objValue.message;
       print('error => $error');
       showSnackBar(error);
